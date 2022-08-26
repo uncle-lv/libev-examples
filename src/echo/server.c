@@ -8,7 +8,6 @@
 #include <ev.h>
 
 #define MAXLINE 80
-#define BUF_SIZE 512
 #define LOGBACK 5
 #define PORT 5000
 
@@ -74,6 +73,6 @@ static void read_data(EV_P_ ev_io *watcher, int revents) {
         close(client_fd);
     } else {
         printf("received message: %s\n", buf);
-        send(client_fd, buf, strlen(buf) < MAXLINE ? strlen(buf) : MAXLINE, 0);
+        send(client_fd, buf, MAXLINE, 0);
     }
 }
