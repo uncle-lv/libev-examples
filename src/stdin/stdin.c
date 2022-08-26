@@ -4,6 +4,7 @@
 
 #define BUF_SIZE 512
 
+// 当stdin发生可读事件时，调用回调函数
 static void stdin_cb(struct ev_loop *loop, ev_io *watcher, int revents) {
     puts("--- READABLE EVENT ---");
     char buf[BUF_SIZE];
@@ -14,12 +15,16 @@ static void stdin_cb(struct ev_loop *loop, ev_io *watcher, int revents) {
 }
 
 int main(void) {
+    // 使用默认的event loop
     struct ev_loop *loop = EV_DEFAULT;
     ev_io stdin_watcher;
 
+    // 初始化watcher
     ev_io_init(&stdin_watcher, stdin_cb, 0, EV_READ);
+    // 将watcher注册至event loop
     ev_io_start(loop, &stdin_watcher);
     printf("please input: \n");
+    // 启动event loop
     ev_run(loop, 0);
     return 0;
 }
