@@ -12,6 +12,7 @@
 #define LOGBACK 5
 #define PORT 5000
 
+// EV_P_ 宏展开为 struct ev_loop *loop,
 static void accept_cb(EV_P_ ev_io *watcher, int revents);
 static void read_data(EV_P_ ev_io *watcher, int revents);
 
@@ -50,11 +51,11 @@ static void accept_cb(struct ev_loop *loop, ev_io *watcher, int revents) {
 
     printf("--- accept connection from %s ---\n", inet_ntop(AF_INET, &client_addr.sin_addr, addr_str, sizeof(addr_str)));
 
+    // 必须使用malloc将watcher分配到堆内存上，否则watcher会被分配到栈内存中。当此函数退出时，watcher将被回收，导致注册失效
     ev_io *client_watcher = malloc(sizeof(ev_io));
     memset(client_watcher, 0, sizeof(ev_io));
     ev_io_init(client_watcher, read_data, client_fd, EV_READ);
     ev_io_start(EV_A_ client_watcher);
-    return;
 }
 
 static void read_data(EV_P_ ev_io *watcher, int revents) {
@@ -67,6 +68,7 @@ static void read_data(EV_P_ ev_io *watcher, int revents) {
         free(watcher);
         close(client_fd);
     } else if (0 == n) {
+        // 注销watcher
         ev_io_stop(EV_A_ watcher);
         free(watcher);
         close(client_fd);
