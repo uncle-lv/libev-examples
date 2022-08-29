@@ -29,7 +29,10 @@ int main(int argc, char *argv[]) {
     write(client_fd, msg, MAXLINE);
 
     int n = read(client_fd, buf, MAXLINE);
-    printf("response from server: %s\n", buf);
-    close(client_fd);
+    if (n > 0) {
+        printf("response from server: %s\n", buf);
+    } else {
+        close(client_fd);
+    }
     return 0;
 }

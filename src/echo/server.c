@@ -38,7 +38,7 @@ int main(void) {
     return 0;
 }
 
-static void accept_cb(struct ev_loop *loop, ev_io *watcher, int revents) {
+static void accept_cb(EV_P_ ev_io *watcher, int revents) {
     char addr_str[INET_ADDRSTRLEN];
     struct sockaddr_in client_addr;
     socklen_t clientaddr_len = sizeof(client_addr);
