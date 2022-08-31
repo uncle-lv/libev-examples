@@ -5,7 +5,8 @@
 #define BUF_SIZE 512
 
 // 当stdin发生可读事件时，调用回调函数
-static void stdin_cb(struct ev_loop *loop, ev_io *watcher, int revents) {
+static void stdin_cb(struct ev_loop *loop, ev_io *watcher, int _) {
+    (void)_;
     puts("--- READABLE EVENT ---");
     char buf[BUF_SIZE];
     memset(buf, 0, BUF_SIZE);

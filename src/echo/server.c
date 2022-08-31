@@ -38,7 +38,8 @@ int main(void) {
     return 0;
 }
 
-static void accept_cb(EV_P_ ev_io *watcher, int revents) {
+static void accept_cb(EV_P_ ev_io *watcher, int _) {
+    (void)_;
     char addr_str[INET_ADDRSTRLEN];
     struct sockaddr_in client_addr;
     socklen_t clientaddr_len = sizeof(client_addr);
@@ -57,7 +58,8 @@ static void accept_cb(EV_P_ ev_io *watcher, int revents) {
     ev_io_start(EV_A_ client_watcher);
 }
 
-static void read_data(EV_P_ ev_io *watcher, int revents) {
+static void read_data(EV_P_ ev_io *watcher, int _) {
+    (void)_;
     int client_fd = watcher->fd;
     char buf[MAXLINE];
     bzero(buf, sizeof(buf));
